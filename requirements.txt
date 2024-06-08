@@ -1,0 +1,18 @@
+Django==5.0.6     # Match your installed Django version
+asgiref==3.8.1
+sqlparse==0.5.0
+
+# MySQL Connector
+
+
+# WSGI Server (Required for PythonAnywhere)
+gunicorn
+
+# Static File Handling (Essential for Production)
+whitenoise         # Highly recommended for serving static files on PythonAnywhere
+
+# Other Packages (Only if used in your project)
+# - Flask and related are not typically needed for a standard Django project
+# - You can remove them if you're not using them.
+Flask==3.0.3
+psycopg2-binary 
