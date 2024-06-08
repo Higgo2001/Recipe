@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Prices</title>
+    <style>
+        h2 {
+        text-align: center;
+        color: #4A4A4A;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    th {
+        background-color: #f2f2f2;
+        text-align: left;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tr:hover {
+        background-color: #ddd;
+    } 
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h2>Recipe Prices</h2>
+
+        <div id="searchResults">
+            {% if prices %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th> 
+                            <th>Matched Product</th>
+                            <th>Price</th> 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for price in prices %}
+                            <tr>
+                                <td>{{ price.0 }}</td>   {# Accessing data by index #}
+                                <td>{{ price.1 }}</td>   {# Accessing data by index #}
+                                <td>{{ price.2 }}</td>   {# Accessing data by index #}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No price information available.</p>
+            {% endif %}
+        </div>
+
+        <button onclick="window.location.href='{% url 'search_recipe' %}'">Back to Search</button>
+    </div>
+</body>
+</html>

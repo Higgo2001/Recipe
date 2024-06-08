@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <title>Product Form</title>
+</head>
+<body>
+
+    <div class="sidebar">
+        <a href="/insert_recipe">Insert Recipe</a>
+        <a href="/search">Search Recipe</a>
+        <a href="/user_recipes">Home</a>
+    </div>
+    <div class="content">
+<h2>Insert Special</h2>
+<form id="product_form">
+    <label for="product_type">Product Type:</label>
+    <select name="product_type" id="product_type">
+        <option value=""></option>
+        <option value="Meat">Meat</option>
+        <option value="Vegetable">Vegetable</option>
+        <option value="Fruit">Fruit</option>
+        <option value="Spice">Spice</option>
+        <option value="Dairy">Dairy</option>
+        <option value="Other">Other</option>
+        <option value="Fish">Fish</option>
+        <option value="Pasta">Pasta</option>
+        <option value="Canned_Food">Canned_Food</option>
+        <option value="Frozen">Frozen</option>
+    </select>
+    <br>
+    <label for="product_subtype">Product Subtype:</label>
+    <select name="product_subtype" id="product_subtype">
+    <!-- Options will be dynamically populated based on selected product type -->
+    </select>
+    <label for="custom_subtype">If not in list:</label>
+    <input type="text" name="custom_subtype" id="custom_subtype">
+    <br>
+    <label for="product_subnametype">Product SubSubtype:</label>
+    <select name="product_subnametype" id="product_subnametype">
+    <!-- Options will be dynamically populated based on selected product subtype -->
+    </select>
+    <label for="custom_subnametype">If not in list:</label>
+    <input type="text" name="custom_subnametype" id="custom_subnametype">
+    <br>
+    <label for="product_price">Product Price:</label>
+    <input type="text" name="product_price" id="product_price">
+    <label for="product_quantity">Quantity:</label>
+    <select name="product_quantity" id="product_quantity">
+        <option value=""></option>
+        <option value="<50g"><50g</option>
+        <option value="50g">50g</option>
+        <option value="100g">100g</option>
+        <option value="250g">250g</option>
+        <option value="350g">350g</option>
+        <option value="500g">500g</option>
+        <option value="750g">750g</option>
+        <option value="1kg">1kg</option>
+        <option value="1.5kg">1.5kg</option>
+        <option value="2kg">2kg</option>
+        <option value="3kg">3kg</option>
+        <option value="<50ml"><50ml</option>
+        <option value="50ml">50ml</option>
+        <option value="100ml">100ml</option>
+        <option value="250ml">250ml</option>
+        <option value="350ml">350ml</option>
+        <option value="500ml">500ml</option>
+        <option value="750ml">750ml</option>
+        <option value="1l">1l</option>
+        <option value="1.5l">1.5l</option>
+        <option value="2l">2l</option>
+
+    </select>
+    <br>
+    <button type="submit">Submit</button>
+</form>
+</div>
+<script>
+    // Function to update product sub-type dropdown options
+    function updateSubtypes() {
+        var productType = document.getElementById('product_type').value;
+        var subtypes = {
+            'Vegetable': ['','Artichoke', 'Red onion', 'Spinach', 'Sweet potato', 'Tomato', 'Yam', 'Asparagus', 'Carrot', 'Cauliflower', 'Celery', 'Bean sprouts', 'Green onion', 'Leek', 'Lettuce', 'Mushroom', 'Onion', 'Parsnip', 'Beans', 'Beetroot', 'Pepper', 'Potato', 'Pumpkin', 'Radicchio', 'Radish', 'Bell pepper', 'Broccoli', 'Brussels sprouts', 'Cabbage', 'Cactus pear', 'Collard greens', 'Corn', 'Cucumber', 'Eggplant', 'Endive', 'Escarole', 'Garlic', 'Green beans', 'Pea', 'Red cabbage', 'Red chili pepper', 'Yellow squash', 'Zucchini'],
+            'Meat': ['','Chicken', 'Beef', 'Pork', 'Lamb'],
+            'Fish': ['','Prawns', 'Hake', 'Calamari', 'Tuna'],
+            'Spice': ['','allspice', 'angelica', 'anise', 'asafoetida', 'bay leaf', 'basil', 'bergamot', 'black cumin', 'black mustard', 'black pepper', 'borage', 'brown mustard', 'burnet', 'caraway', 'cardamom', 'cassia', 'catnip', 'cayenne pepper', 'celery seed', 'chervil', 'chicory', 'chili pepper', 'chives', 'cicely', 'cilantro', 'cinnamon', 'clove', 'coriander', 'costmary', 'cumin', 'curry', 'dill', 'fennel', 'fenugreek', 'file', 'ginger', 'grains of paradise', 'holy basil', 'horehound', 'horseradish ', 'hyssop', 'lavender', 'lemon balm', 'lemon grass', 'lemon verbena', 'licorice', 'lovage', 'mace', 'marjoram', 'nutmeg', 'oregano', 'paprika', 'parsley', 'peppermint', 'poppy seed', 'rosemary', 'rue', 'saffron', 'sage', 'savory', 'sesame', 'sorrel', 'star anise', 'spearmint', 'tarragon', 'thyme', 'turmeric', 'vanilla', 'wasabi', 'white mustard'],
+            'Dairy':['','Milk','Cheese','Yogurt','Cream','Butter'],
+            'Other':['','Eggs','Flour','Oats','Sugar','Coconut Shavings','Honey','Syrup','Baking'],
+            'Pasta' : ['','Fusilli','Macaroni','Penne','Spaghetti'],
+            'Canned_Food' : ['','Tuna','Beans','Tomato Paste','Lentils','Tomato Puree'],
+            'Frozen' : ['','Country Mix', 'Julienne Carrots','Broccoli and Cauliflower','Mixed Vegetable']
+            // Add other product types and their subtypes here
+        };
+        var subtypeDropdown = document.getElementById('product_subtype');
+        // Clear existing options
+        subtypeDropdown.innerHTML = '';
+        // Add new options based on selected product type
+        subtypes[productType].forEach(function(subtype) {
+            var option = document.createElement('option');
+            option.text = subtype;
+            option.value = subtype;
+            subtypeDropdown.add(option);
+        });
+        // Call the function to populate sub-subtypes based on default product subtype
+        updateSubSubtypes();
+    }
+
+    // Add event listener to product type dropdown
+    document.getElementById('product_type').addEventListener('change', updateSubtypes);
+
+    // Function to update product sub-subtype dropdown options
+    function updateSubSubtypes() {
+        var productSubtype = document.getElementById('product_subtype').value;
+        var subtypes = {
+            '' : [''],
+            'Chicken': ['ChickenLegs', 'Breast', 'Whole', 'Mixed'],
+            'Lamb': ['Roast', 'Chops','Ribs','Stewing Lamb','Lamb Knuckles'],
+            'Beef': ['T-Bone', 'Rump','Rashers','Stewing_Beef','Oxtail','Sirloin','Tongue','Beef_Mince','Pastrami','Boerewors'],
+            'Pork': ['Pork Belly', 'Pork Chops', 'Stewing Pork', 'Pork Mince','Streaky Bacon','Back Bacon','Shoulder Bacon','Smoked Ham','Pork Sausages'],
+            'Artichoke' : ['None'],
+            'Red onion' : ['None'],
+            'Spinach' : ['None'],
+            'Sweet potato' : ['None'],
+            'Tomato' : ['Romanita','Cherry_Tomatoes','Mini-Plum','Oxheart_Tomatoes','Jam_Tomatoes'],
+            'Yam' : ['None'],
+            'Asparagus' : ['None'],
+            'Carrot' : ['Baby_carrots','Normal'],
+            'Cauliflower' : ['None'],
+            'Celery' : ['None'],
+            'Chayote' : ['None'],
+            'Bamboo shoots' : ['None'],
+            'Bean sprouts' : ['None'],
+            'Green onion' : ['None'],
+            'Leek' : ['None'],
+            'Lettuce' : ['None'],
+            'Mushroom' : ['None'],
+            'Onion' : ['None'],
+            'Parsnip' : ['None'],
+            'Beans' : ['None'],
+            'Beetroot' : ['None'],
+            'Pepper' : ['None'],
+            'Potato' : ['None'],
+            'Pumpkin' : ['None'],
+            'Radicchio' : ['None'],
+            'Radish' : ['None'],
+            'Bell pepper' : ['None'],
+            'Broccoli' : ['None'],
+            'Brussels sprouts' : ['None'],
+            'Cabbage' : ['None'],
+            'Cactus pear' : ['None'],
+            'Collard greens' : ['None'],
+            'Corn' : ['None'],
+            'Cucumber' : ['None'],
+            'Eggplant' : ['None'],
+            'Endive' : ['None'],
+            'Escarole' : ['None'],
+            'Garlic' : ['None'],
+            'Green beans' : ['None'],
+            'Pea' : ['None'],
+            'Red cabbage' : ['None'],
+            'Red chili pepper' : ['None'],
+            'Yellow squash' : ['None'],
+            'Zucchini' : ['None'],
+            'Prawns': ['Medium','Baby'],
+            'allspice': ['None'],
+            'angelica': ['None'],
+            'anise': ['None'],
+            'asafoetida': ['None'],
+            'bay leaf': ['None'],
+            'basil': ['None'],
+            'bergamot': ['None'],
+            'black cumin': ['None'],
+            'black mustard': ['None'],
+            'black pepper': ['None'],
+            'borage': ['None'],
+            'brown mustard': ['None'],
+            'burnet': ['None'],
+            'caraway': ['None'],
+            'cardamom': ['None'],
+            'cassia': ['None'],
+            'catnip': ['None'],
+            'cayenne pepper': ['None'],
+            'celery seed': ['None'],
+            'chervil': ['None'],
+            'chicory': ['None'],
+            'chili pepper': ['None'],
+            'chives': ['None'],
+            'cicely': ['None'],
+            'cilantro': ['None'],
+            'cinnamon': ['None'],
+            'clove': ['None'],
+            'coriander': ['None'],
+            'costmary': ['None'],
+            'cumin': ['None'],
+            'curry': ['None'],
+            'dill': ['None'],
+            'fennel': ['None'],
+            'fenugreek': ['None'],
+            'file': ['None'],
+            'ginger': ['None'],
+            'grains of paradise': ['None'],
+            'holy basil': ['None'],
+            'horehound': ['None'],
+            'horseradish': ['None'],
+            'hyssop': ['None'],
+            'lavender': ['None'],
+            'lemon balm': ['None'],
+            'lemon grass': ['None'],
+            'lemon verbena': ['None'],
+            'licorice': ['None'],
+            'lovage': ['None'],
+            'mace': ['None'],
+            'marjoram': ['None'],
+            'nutmeg': ['None'],
+            'oregano': ['None'],
+            'paprika': ['None'],
+            'parsley': ['None'],
+            'peppermint': ['None'],
+            'poppy seed': ['None'],
+            'rosemary': ['None'],
+            'rue': ['None'],
+            'saffron': ['None'],
+            'sage': ['None'],
+            'savory': ['None'],
+            'sesame': ['None'],
+            'sorrel': ['None'],
+            'star anise': ['None'],
+            'spearmint': ['None'],
+            'tarragon': ['None'],
+            'thyme': ['None'],
+            'turmeric': ['None'],
+            'vanilla': ['None'],
+            'wasabi': ['None'],
+            'white mustard': ['None'],
+            'Milk': ['Low_Fat_Milk','Full_Cream_Milk','Long_life_Milk','Amasi'],
+            'Cheese': ['Gouda','Cheddar','Blue Cheese','Mozzarella','Parmesan','Matured Cheddar','Cream Cheese','Feta Cheese'],
+            'Yogurt': ['Fat Free Yogurt','Low fat Yogurt','Double Cream Yogurt'],
+            'Cream' : ['Normal','Sour Cream'],
+            'Tuna': ['None'],
+
+            'Tomato Paste': ['None'],
+            'Lentils': ['None'],
+            'Tomato Puree': ['None'],
+            'Fusilli': ['None'],
+            'Macaroni': ['None'],
+            'Penne': ['None'],
+            'Spaghetti': ['None'],
+            'Eggs': ['Large','Extra Large','Jumbo'],
+            'Flour': ['Self Raising Flour','Cake Wheat Flour','Maize Flour','White Bread Flour','Brown Bread Flour','Bran Rich Self Raising Flour','Oat Flour'],
+            'Oats':['Rolled Oats','Fine Oats'],
+            'Sugar':['White Sugar','Brown Sugar','Comprised Sugar'],
+            'Coconut Shavings':['None'],
+            'Honey':['None'],
+            'Syrup':['None'],
+            'Baking':['Baking Soda','Baking Powder','Vanilla Essence','Margarine'],
+            'Butter': ['None']
+
+            // Add other product types and their subtypes here
+        };
+        var subsubtypeDropdown = document.getElementById('product_subnametype');
+        // Clear existing options
+        subsubtypeDropdown.innerHTML = '';
+        // Add new options based on selected product subtype
+        subtypes[productSubtype].forEach(function(subsubtype) {
+            var option = document.createElement('option');
+            option.text = subsubtype;
+            option.value = subsubtype;
+            subsubtypeDropdown.add(option);
+        });
+    }
+
+    // Add event listener to product subtype dropdown
+    document.getElementById('product_subtype').addEventListener('change', updateSubSubtypes);
+
+    // Function to handle form submission
+    document.getElementById('product_form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Get form data
+        var productType = document.getElementById('product_type').value;
+        var productSubtype = document.getElementById('product_subtype').value;
+        var productSubnametype = document.getElementById('product_subnametype').value;
+        var productPrice = document.getElementById('product_price').value;
+        var productQuantity = document.getElementById('product_quantity').value;
+        var customSub = document.getElementById('custom_subtype').value;
+        var customSubName = document.getElementById('custom_subnametype').value;
+
+
+        // Create FormData object and append form data
+        var formData = new FormData();
+        formData.append('product_type', productType);
+        formData.append('product_subtype', productSubtype);
+        formData.append('product_subnametype', productSubnametype);
+        formData.append('product_price', productPrice);
+        formData.append('product_quantity', productQuantity);
+        formData.append('custom_subtype', customSub);
+        formData.append('custom_subnametype', customSubName);
+
+
+        // Send form data to server using fetch API
+        fetch('/insert_specials', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.text(); // If response is successful, return text response
+            }
+            throw new Error('Network response was not ok.');
+        })
+        .then(data => {
+            console.log(data); // Log response from server
+            // Handle response as needed (e.g., display success message)
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error); // Log any errors
+            // Handle errors as needed (e.g., display error message)
+        });
+    });
+</script>
+
+</body>
+</html>

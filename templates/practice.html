@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Recipe</title>
+
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Search Recipe</h2>
+    <button onclick="window.location.href='/insert_specials'">Insert Specials</button>
+    <button onclick="window.location.href='/insert_recipe'">Create Recipe</button>
+    <button onclick="window.location.href='/user_recipes'">Home</button><br>
+
+    <br>
+    <input type="text" id="searchWord" placeholder="Enter a word to search">
+    <button id="searchButton">Search</button>
+    <div id="searchResults"></div>
+
+    <script>
+document.getElementById("searchButton").addEventListener("click", function() {
+    const searchWord = document.getElementById("searchWord").value;
+    fetch(`/search?word=${searchWord}`)
+        .then(response => response.json())
+        .then(data => {
+            const searchResultsDiv = document.getElementById("searchResults");
+            searchResultsDiv.innerHTML = ""; // Clear previous results
+            if (data.length === 0) {
+                searchResultsDiv.textContent = "No results found.";
+            } else {
+                const table = document.createElement("table");
+
+                // Create custom table headers
+                const headerRow = document.createElement("tr");
+                const headers = ["Dish Name", "Dish Type", "Dish Sort", "Dish Time", "Specific Food", "Main Ingredient 1", "Main Ingredient 2", "Main Ingredient 3", "Other Products", "Description", "Machinery", "Price"];
+                headers.forEach(headerText => {
+                    const headerCell = document.createElement("th");
+                    headerCell.textContent = headerText;
+                    headerRow.appendChild(headerCell);
+                });
+                table.appendChild(headerRow);
+
+                // Create table rows
+                data.forEach(result => {
+                    const row = document.createElement("tr");
+                    // Populate table cells with data
+                    headers.forEach(headerText => {
+                        const cell = document.createElement("td");
+                        cell.textContent = result[headerText.toLowerCase().replace(/ /g, '_')]; // Convert header text to lowercase and replace spaces with underscores to match JSON keys
+                        row.appendChild(cell);
+                    });
+                    table.appendChild(row);
+                });
+
+                searchResultsDiv.appendChild(table);
+            }
+        })
+        .catch(error => console.error("Error:", error));
+});
+    </script>
+</body>
+</html>

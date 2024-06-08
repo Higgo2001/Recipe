@@ -1,0 +1,27 @@
+<!-- templates/home.html -->
+
+
+{% block content %}
+
+<h1>Welcome, {{ request.user.username }}!</h1>
+
+<h2>Your Recipes:</h2>
+ {% if user.is_authenticated %}
+        <p>Hello, {{ user.email }}! <a href="{% url 'logout' %}">Logout</a></p>
+    {% else %}
+        <p>You are not logged in. <a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Register</a></p>
+    {% endif %}
+{% if recipes %}
+    <ul>
+        {% for recipe in recipes %}
+            <li>
+                <h3><a href="#">{{ recipe.DishName }}</a></h3>
+                <p>Type: {{ recipe.DishType }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>You haven't added any recipes yet. <a href="{% url 'insert_recipe' %}">Create one now!</a></p>
+{% endif %}
+
+{% endblock %}

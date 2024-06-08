@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Recipe</title>
+</head>
+<body>
+  <h1>Add a Recipe</h1>
+  <ul>
+      <h1>Welcome to the Home Page</h1>
+    {% if user.is_authenticated %}
+        <p>Hello, {{ user.email }}! <a href="{% url 'logout' %}">Logout</a></p>
+    {% else %}
+        <p>You are not logged in. <a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Register</a></p>
+    {% endif %}
+        <a href="{% url 'search_recipe' %}">Search Recipe</a>
+        <a href="{% url 'insert_recipe' %}">Insert Recipe</a>
+        <a href="{% url 'home' %}">Home</a>
+    </ul>
+  <form method="POST">
+    {% csrf_token %}  <!-- Include Django's CSRF token -->
+    <label for="DishName">Dish Name:</label>
+    <input type="text" id="DishName" name="DishName" required><br><br>
+
+    <label for="DishType">Dish Type:</label>
+    <input type="text" id="DishType" name="DishType" required><br><br>
+
+    <label for="DishSort">Dish Name:</label>
+    <input type="text" id="DishSort" name="DishSort" required><br><br>
+
+    <label for="DishTime">Dish Type:</label>
+    <input type="text" id="DishTime" name="DishTime" required><br><br>
+
+
+    <label for="ProductOtherProducts">Dish Name:</label>
+    <input type="text" id="ProductOtherProducts" name="ProductOtherProducts" required><br><br>
+
+    <label for="Description">Dish Type:</label>
+    <input type="text" id="Description" name="Description" required><br><br>
+
+    <label for="Machinery">Dish Type:</label>
+    <input type="text" id="Machinery" name="Machinery" required><br><br>
+    <!-- Add other input fields for the rest of the recipe data -->
+
+    <button type="submit">Add Recipe</button>
+  </form>
+</body>
+</html>
